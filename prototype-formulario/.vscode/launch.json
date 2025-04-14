@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "java",
+        "name": "Attach",
+        "request": "attach",
+        "hostName": "localhost",
+        "port": "<debug port of the debuggee>"
+      },
+        
+      {
+        "type": "java",
+        "name": "Ejecutar Main",
+        "request": "launch",
+        "mainClass": "Main"
+      }
+    ]
+  }
+  
