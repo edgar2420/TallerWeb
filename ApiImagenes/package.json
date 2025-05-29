@@ -1,0 +1,23 @@
+{
+  "name": "apiimagenes",
+  "version": "1.0.0",
+  "description": "Subir imagenes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "edgar2420"
+  },
+  "author": "Edgar Andres Rojas Apaza",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0",
+    "express-fileupload": "^1.5.1",
+    "express-session": "^1.18.1",
+    "mysql2": "^3.14.1",
+    "sequelize": "^6.37.7"
+  }
+}
