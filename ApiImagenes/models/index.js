@@ -19,4 +19,5 @@ db.sequelize = sequelize;
 
 db.imagen = require("./imagen.model.js")(sequelize, Sequelize);
 
+
 module.exports = db;

@@ -9,6 +9,11 @@ exports.subirImagen = async (req, res) => {
         return res.status(400).json({ message: 'No se envió ninguna imagen' });
     }
 
+    const { usuarioId } = req.body;
+    if (!usuarioId) {
+        return res.status(400).json({ message: 'El usuarioId es obligatorio' });
+    }
+
     const archivos = Array.isArray(req.files.foto) ? req.files.foto : [req.files.foto];
     const resultados = [];
 
@@ -19,12 +24,54 @@ exports.subirImagen = async (req, res) => {
 
         try {
             await archivo.mv(ruta);
-            const imagen = await Imagen.create({ foto: nombre });
+            const imagen = await Imagen.create({
+                foto: nombre,
+                usuarioId,
+            });
             resultados.push(imagen);
         } catch (error) {
+            console.error(`Error al guardar ${archivo.name}:`, error);
             resultados.push({ error: `Error al guardar ${archivo.name}` });
         }
     }
 
     res.json(resultados);
 };
+
+
+exports.obtenerImagenes = async (req, res) => {
+    try {
+        const imagenes = await Imagen.findAll();
+        res.json(imagenes);
+    } catch (error) {
+        console.error('Error al obtener imágenes:', error);
+        res.status(500).json({ message: 'Error al obtener imágenes' });
+    }
+}
+
+exports.eliminarImagen = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const imagen = await Imagen.findByPk(id);
+        if (!imagen) {
+            return res.status(404).json({ message: 'Imagen no encontrada' });
+        }
+
+        const ruta = path.join(__dirname, '../uploads', imagen.foto);
+        await Imagen.destroy({ where: { id } });
+
+        
+        const fs = require('fs');
+        fs.unlink(ruta, (err) => {
+            if (err) {
+                console.error('Error al eliminar el archivo:', err);
+            }
+        });
+
+        res.json({ message: 'Imagen eliminada correctamente' });
+    } catch (error) {
+        console.error('Error al eliminar la imagen:', error);
+        res.status(500).json({ message: 'Error al eliminar la imagen' });
+    }
+}
