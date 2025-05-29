@@ -25,9 +25,10 @@ exports.subirImagen = async (req, res) => {
         try {
             await archivo.mv(ruta);
             const imagen = await Imagen.create({
-                foto: nombre,
-                usuarioId,
+                foto: `/uploads/${nombre}`,
+                usuarioId: usuarioId || null,
             });
+
             resultados.push(imagen);
         } catch (error) {
             console.error(`Error al guardar ${archivo.name}:`, error);
@@ -61,7 +62,7 @@ exports.eliminarImagen = async (req, res) => {
         const ruta = path.join(__dirname, '../uploads', imagen.foto);
         await Imagen.destroy({ where: { id } });
 
-        
+
         const fs = require('fs');
         fs.unlink(ruta, (err) => {
             if (err) {
