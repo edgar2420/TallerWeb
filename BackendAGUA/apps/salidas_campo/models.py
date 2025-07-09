@@ -1,0 +1,1 @@
+from apps.salidas_campo.infrastructure.models import SalidaCampoModel
